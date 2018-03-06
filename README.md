@@ -1,7 +1,7 @@
 # PopularMovies
 Udacity Nanodegree project
 
-#Using
+# Using
 Put your API_KEY inside build.gradle (app)
 
 
