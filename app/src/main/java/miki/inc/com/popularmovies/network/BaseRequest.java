@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.core;
+package miki.inc.com.popularmovies.network;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -9,7 +9,6 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;

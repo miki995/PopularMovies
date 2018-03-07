@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.utils;
+package miki.inc.com.popularmovies.network.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

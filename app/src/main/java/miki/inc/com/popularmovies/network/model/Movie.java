@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.model;
+package miki.inc.com.popularmovies.network.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

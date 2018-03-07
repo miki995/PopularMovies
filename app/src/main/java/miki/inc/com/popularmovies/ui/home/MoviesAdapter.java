@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.ui.adapters;
+package miki.inc.com.popularmovies.ui.home;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import miki.inc.com.popularmovies.R;
-import miki.inc.com.popularmovies.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movie;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private Callbacks mCallbacks;
-    private Context context;
     private List<Movie> mFeedList;
 
     public MoviesAdapter(List<Movie> feedList) {
@@ -34,7 +33,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        Context context = parent.getContext();
 
         View view = View.inflate(parent.getContext(), R.layout.item_movie, null);
         return new MovieViewHolder(view);

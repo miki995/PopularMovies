@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="3dp"
     android:paddingRight="3dp"
-    tools:context=".ui.fragments.MoviesFragment">
+    tools:context=".ui.home.MoviesFragment">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

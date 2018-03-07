@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/coordinatorLayout"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activities.MoviesDetailsActivity">
+    tools:context=".ui.detail.MoviesDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies;
+package miki.inc.com.popularmovies.ui.base;
 
 import android.app.Application;
 
@@ -6,7 +6,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import miki.inc.com.popularmovies.core.OkHttpStack;
+
+import miki.inc.com.popularmovies.network.OkHttpStack;
 
 /**
  * Created by MIKI on 02-03-2018.

@@ -6,15 +6,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".PopularMoviesApplication"
-        android:allowBackup="true"
+        android:name=".ui.base.PopularMoviesApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.activities.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.MoviesDetailsActivity"
+            android:name=".ui.detail.MoviesDetailsActivity"
             android:label="@string/title_activity_movies_details"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.api;
+package miki.inc.com.popularmovies.network.api;
 
 /**
  * Created by MIKI on 03-03-2018.

@@ -1,6 +1,6 @@
-package miki.inc.com.popularmovies.utils;
+package miki.inc.com.popularmovies.network.utils;
 
-import miki.inc.com.popularmovies.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movie;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.ui.activities;
+package miki.inc.com.popularmovies.ui.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,8 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import miki.inc.com.popularmovies.R;
-import miki.inc.com.popularmovies.model.Sort;
-import miki.inc.com.popularmovies.ui.fragments.MoviesFragment;
+import miki.inc.com.popularmovies.network.model.Sort;
+import miki.inc.com.popularmovies.ui.base.BaseActivity;
 
 public class HomeActivity extends BaseActivity {
 

@@ -1,12 +1,12 @@
-package miki.inc.com.popularmovies.services;
+package miki.inc.com.popularmovies.network.services;
 
 import com.google.gson.reflect.TypeToken;
 
 import miki.inc.com.popularmovies.BuildConfig;
-import miki.inc.com.popularmovies.api.ApiEndpoints;
-import miki.inc.com.popularmovies.core.BaseService;
-import miki.inc.com.popularmovies.core.ResponseListener;
-import miki.inc.com.popularmovies.utils.MoviesResponse;
+import miki.inc.com.popularmovies.network.api.ApiEndpoints;
+import miki.inc.com.popularmovies.network.BaseService;
+import miki.inc.com.popularmovies.network.ResponseListener;
+import miki.inc.com.popularmovies.network.utils.MoviesResponse;
 
 import java.util.HashMap;
 import java.util.Map;

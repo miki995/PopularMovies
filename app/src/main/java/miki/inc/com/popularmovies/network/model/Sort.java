@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.model;
+package miki.inc.com.popularmovies.network.model;
 
 /**
  * Created by MIKI on 05-03-2018.

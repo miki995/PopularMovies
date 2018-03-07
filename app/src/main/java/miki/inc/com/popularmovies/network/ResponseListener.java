@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.core;
+package miki.inc.com.popularmovies.network;
 
 import com.android.volley.Response;
 

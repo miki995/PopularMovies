@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.ui.activities;
+package miki.inc.com.popularmovies.ui.detail;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,17 +9,26 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.w3c.dom.Text;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import miki.inc.com.popularmovies.R;
-import miki.inc.com.popularmovies.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movie;
+import miki.inc.com.popularmovies.ui.base.BaseActivity;
 
 
 public class MoviesDetailsActivity extends BaseActivity {
 
     private Movie movie;
-    private SimpleDraweeView mHeaderImage, mMoviePosterImage;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
-    private TextView mMovieTitle, mMovieReleaseDate, mMovieRating, mMovieOverview;
-    private RatingBar mRatingBar;
+    @BindView(R.id.headerImage) SimpleDraweeView mHeaderImage;
+    @BindView(R.id.moviePosterImage) SimpleDraweeView mMoviePosterImage;
+    @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.movieTitle) TextView mMovieTitle;
+    @BindView(R.id.movieReleaseDate) TextView mMovieReleaseDate;
+    @BindView(R.id.movieRating) TextView mMovieRating;
+    @BindView(R.id.movieOverview) TextView mMovieOverview;
+    @BindView(R.id.ratingBar) RatingBar mRatingBar;
 
 
     @Override
@@ -28,7 +37,7 @@ public class MoviesDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_movies_details);
 
         getIntentData();
-        initViews();
+        ButterKnife.bind(this);
         inflateData();
     }
 
@@ -39,17 +48,6 @@ public class MoviesDetailsActivity extends BaseActivity {
             setActivityTitle(movie.getTitle());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    private void initViews() {
-        collapsingToolbarLayout = findViewById(R.id.collapsingToolbar);
-        mHeaderImage = findViewById(R.id.headerImage);
-        mMoviePosterImage = findViewById(R.id.moviePosterImage);
-        mMovieTitle = findViewById(R.id.movieTitle);
-        mMovieReleaseDate = findViewById(R.id.movieReleaseDate);
-        mMovieRating = findViewById(R.id.movieRating);
-        mMovieOverview = findViewById(R.id.movieOverview);
-        mRatingBar = findViewById(R.id.ratingBar);
     }
 
     private void inflateData() {
@@ -63,8 +61,9 @@ public class MoviesDetailsActivity extends BaseActivity {
         mMovieReleaseDate.setText(movie.getRelease_date());
 
         float rating = (float) Math.round(Double.parseDouble(movie.getVote_average()) * 10) / 10;
+        String sumRating = rating + "/10";
 
-        mMovieRating.setText(rating + "/10");
+        mMovieRating.setText(sumRating);
         mRatingBar.setRating(rating);
         mMovieOverview.setText(movie.getOverview());
 

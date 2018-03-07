@@ -1,10 +1,10 @@
-package miki.inc.com.popularmovies.core;
+package miki.inc.com.popularmovies.network;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
 
-import miki.inc.com.popularmovies.PopularMoviesApplication;
-import miki.inc.com.popularmovies.utils.NetworkUtils;
+import miki.inc.com.popularmovies.ui.base.PopularMoviesApplication;
+import miki.inc.com.popularmovies.network.utils.NetworkUtils;
 
 import java.util.Map;
 
