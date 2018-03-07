@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="miki.inc.com.popularmovies">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,6 +26,8 @@
         <activity
             android:name=".ui.detail.MoviesDetailsActivity"
             android:label="@string/title_activity_movies_details"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="jelly_bean">/>
     </application>
 </manifest>
