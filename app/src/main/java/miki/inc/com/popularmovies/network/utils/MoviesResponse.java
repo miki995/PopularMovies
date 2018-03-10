@@ -1,6 +1,6 @@
 package miki.inc.com.popularmovies.network.utils;
 
-import miki.inc.com.popularmovies.network.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movies;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class MoviesResponse {
 
-    private List<Movie> results;
+    private List<Movies> results;
 
-    public List<Movie> getResults() {
+    public List<Movies> getResults() {
         return results;
     }
 

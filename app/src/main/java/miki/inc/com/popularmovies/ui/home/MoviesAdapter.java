@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import miki.inc.com.popularmovies.R;
-import miki.inc.com.popularmovies.network.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movies;
 
 import java.util.List;
 
@@ -21,13 +21,13 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface Callbacks {
-        void onMovieClick(Movie movie);
+        void onMovieClick(Movies movies);
     }
 
     private Callbacks mCallbacks;
-    private List<Movie> mFeedList;
+    private List<Movies> mFeedList;
 
-    public MoviesAdapter(List<Movie> feedList) {
+    public MoviesAdapter(List<Movies> feedList) {
         this.mFeedList = feedList;
     }
 
@@ -43,12 +43,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof MovieViewHolder) {
-            final Movie movie = mFeedList.get(position);
+            final Movies movies = mFeedList.get(position);
 
             final MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
 
-            movieViewHolder.mMovieName.setText(movie.getOrig_title());
-            Uri uri = Uri.parse("http://image.tmdb.org/t/p/w185/" + movie.getPoster_path());
+            movieViewHolder.mMovieName.setText(movies.getOrig_title());
+            Uri uri = Uri.parse("http://image.tmdb.org/t/p/w185/" + movies.getPoster_path());
             movieViewHolder.mMovieImage.setImageURI(uri);
 
             movieViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
 
                     if (mCallbacks != null) {
-                        mCallbacks.onMovieClick(movie);
+                        mCallbacks.onMovieClick(movies);
                     }
                 }
             });

@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:textColor="@color/primaryText"
                 android:textSize="20sp"
-                tools:text="Just a random movie" />
+                tools:text="Just a random movies" />
 
         </LinearLayout>
 

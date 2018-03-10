@@ -28,6 +28,6 @@
             android:label="@string/title_activity_movies_details"
             android:parentActivityName=".ui.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            tools:targetApi="jelly_bean">/>
+            tools:targetApi="jelly_bean" />
     </application>
 </manifest>

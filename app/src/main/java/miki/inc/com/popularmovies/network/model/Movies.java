@@ -3,10 +3,12 @@ package miki.inc.com.popularmovies.network.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by MIKI on 03-03-2018.
  */
-public class Movie implements Parcelable {
+public class Movies implements Parcelable {
 
     public static final String TAG_MOVIES = "movies";
 
@@ -15,6 +17,7 @@ public class Movie implements Parcelable {
     private String poster_path;
     private String overview;
     private String title;
+    private List<Integer> genre_ids;
     private String backdrop_path;
     private String popularity;
     private boolean video;
@@ -45,6 +48,15 @@ public class Movie implements Parcelable {
         return backdrop_path;
     }
 
+    public boolean getIsAdult() {
+        return adult;
+    }
+
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
 
     public String getRelease_date() {
         return release_date;
@@ -55,11 +67,25 @@ public class Movie implements Parcelable {
         return orig_title;
     }
 
+    public String getOrig_language() {
+        return orig_language;
+    }
 
     public String getTitle() {
         return title;
     }
 
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public boolean getIsVideo() {
+        return video;
+    }
+
+    public int getVote_count() {
+        return vote_count;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -94,17 +120,17 @@ public class Movie implements Parcelable {
 
     public static final Creator CREATOR = new Creator() {
 
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public Movies createFromParcel(Parcel in) {
+            return new Movies(in);
         }
 
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public Movies[] newArray(int size) {
+            return new Movies[size];
         }
 
     };
 
-    public Movie(Parcel in) {
+    public Movies(Parcel in) {
         id = in.readInt();
         adult = in.readByte() != 0;
         poster_path = in.readString();

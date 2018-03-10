@@ -9,18 +9,16 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import miki.inc.com.popularmovies.R;
-import miki.inc.com.popularmovies.network.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movies;
 import miki.inc.com.popularmovies.ui.base.BaseActivity;
 
 
 public class MoviesDetailsActivity extends BaseActivity {
 
-    private Movie movie;
+    private Movies movies;
     @BindView(R.id.headerImage) SimpleDraweeView mHeaderImage;
     @BindView(R.id.moviePosterImage) SimpleDraweeView mMoviePosterImage;
     @BindView(R.id.collapsingToolbar) CollapsingToolbarLayout collapsingToolbarLayout;
@@ -44,28 +42,28 @@ public class MoviesDetailsActivity extends BaseActivity {
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            movie = intent.getExtras().getParcelable(Movie.TAG_MOVIES);
-            setActivityTitle(movie.getTitle());
+            movies = intent.getExtras().getParcelable(Movies.TAG_MOVIES);
+            setActivityTitle(movies.getTitle());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
     private void inflateData() {
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-        Uri uriHeader = Uri.parse("http://image.tmdb.org/t/p/w500/" + movie.getBackdrop_path());
-        Uri uriPoster = Uri.parse("http://image.tmdb.org/t/p/w185/" + movie.getPoster_path());
+        Uri uriHeader = Uri.parse("http://image.tmdb.org/t/p/w500/" + movies.getBackdrop_path());
+        Uri uriPoster = Uri.parse("http://image.tmdb.org/t/p/w185/" + movies.getPoster_path());
         mHeaderImage.setImageURI(uriHeader);
         mMoviePosterImage.setImageURI(uriPoster);
 
-        mMovieTitle.setText(movie.getTitle());
-        mMovieReleaseDate.setText(movie.getRelease_date());
+        mMovieTitle.setText(movies.getTitle());
+        mMovieReleaseDate.setText(movies.getRelease_date());
 
-        float rating = (float) Math.round(Double.parseDouble(movie.getVote_average()) * 10) / 10;
+        float rating = (float) Math.round(Double.parseDouble(movies.getVote_average()) * 10) / 10;
         String sumRating = rating + "/10";
 
         mMovieRating.setText(sumRating);
         mRatingBar.setRating(rating);
-        mMovieOverview.setText(movie.getOverview());
+        mMovieOverview.setText(movies.getOverview());
 
     }
 

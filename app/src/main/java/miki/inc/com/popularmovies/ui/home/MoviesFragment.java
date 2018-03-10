@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 
-import miki.inc.com.popularmovies.network.model.Movie;
+import miki.inc.com.popularmovies.network.model.Movies;
 import miki.inc.com.popularmovies.network.model.Sort;
 import miki.inc.com.popularmovies.network.services.PopularMoviesService;
 import miki.inc.com.popularmovies.R;
@@ -31,7 +31,7 @@ import java.util.List;
 public class MoviesFragment extends BaseMovieFragment implements ResponseListener<MoviesResponse>, MoviesAdapter.Callbacks {
 
     private RecyclerView recyclerView;
-    private List<Movie> mMovies = new ArrayList<>();
+    private List<Movies> mMovies = new ArrayList<>();
 
     public MoviesFragment() {
     }
@@ -55,7 +55,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
         initAdapter(mMovies);
     }
 
-    private void initAdapter(List<Movie> movies) {
+    private void initAdapter(List<Movies> movies) {
         MoviesAdapter moviesAdapter = new MoviesAdapter(movies);
         moviesAdapter.setCallbacks(this);
         recyclerView.setAdapter(moviesAdapter);
@@ -106,9 +106,9 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     }
 
     @Override
-    public void onMovieClick(Movie movie) {
+    public void onMovieClick(Movies movies) {
         Intent intent = new Intent(getActivity(), MoviesDetailsActivity.class);
-        intent.putExtra(Movie.TAG_MOVIES, movie);
+        intent.putExtra(Movies.TAG_MOVIES, movies);
         startActivity(intent);
     }
 }
