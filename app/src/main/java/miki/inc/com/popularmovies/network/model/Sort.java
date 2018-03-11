@@ -1,12 +1,10 @@
 package miki.inc.com.popularmovies.network.model;
 
-/**
- * Created by MIKI on 05-03-2018.
- */
 public enum Sort {
 
     POPULAR("popular"),
-    TOP_RATED("top_rated");
+    TOP_RATED("top_rated"),
+    FAVORITE("favorite");
 
     private final String value;
 

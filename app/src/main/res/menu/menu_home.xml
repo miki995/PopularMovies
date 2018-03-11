@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.home.HomeActivity">
+    tools:context="miki.inc.com.popularmovies.ui.movies.HomeActivity">
 
     <item
         android:id="@+id/action_sort"
@@ -22,6 +22,10 @@
                 <item
                     android:id="@+id/sort_by_rating"
                     android:title="@string/sort_by_rating" />
+
+                <item
+                    android:id="@+id/sort_by_favorite"
+                    android:title="@string/sort_by_favorite" />
             </group>
         </menu>
 

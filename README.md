@@ -2,8 +2,8 @@
 Udacity Nanodegree project
 
 # Using
-Put your API_KEY inside build.gradle (app)
-
+Put your API_KEY  from TheMovieDb inside build.gradle (app)
+Put your API_KEY from YouTube API inside /network/config file
 
 ## Libraries used
 

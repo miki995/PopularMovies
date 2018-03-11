@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="miki.inc.com.popularmovies">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".ui.base.PopularMoviesApplication"
+        android:name="miki.inc.com.popularmovies.PopularMoviesApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name="miki.inc.com.popularmovies.ui.movies.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,10 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.MoviesDetailsActivity"
+            android:name="miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsActivity"
             android:label="@string/title_activity_movies_details"
-            android:parentActivityName=".ui.home.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            tools:targetApi="jelly_bean" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".network.database.MoviesProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"
+            android:syncable="true" />
     </application>
+
 </manifest>

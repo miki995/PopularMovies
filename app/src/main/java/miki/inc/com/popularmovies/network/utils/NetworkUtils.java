@@ -7,9 +7,7 @@ import android.net.Uri;
 
 import java.util.Map;
 
-/**
- * Created by MIKI on 04-03-2018.
- */
+
 public class NetworkUtils {
 
     public static String getUrl(String baseUrl, Map<String, String> queryParams) {

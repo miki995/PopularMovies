@@ -1,40 +1,61 @@
 package miki.inc.com.popularmovies.ui.base;
 
+import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import miki.inc.com.popularmovies.R;
+import miki.inc.com.popularmovies.network.utils.NetworkUtils;
 
 
 public class BaseActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+    Toolbar toolbar;
+    CoordinatorLayout coordinatorLayout;
     MaterialDialog materialDialog;
 
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
-        ButterKnife.bind(this);
-        setupToolbar();
+
+        injectViews();
 
         if (isDisplayHomeAsUpEnabled()) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
+    protected void injectViews() {
+        toolbar =  findViewById(miki.inc.com.popularmovies.R.id.toolbar);
+        coordinatorLayout =  findViewById(miki.inc.com.popularmovies.R.id.coordinatorLayout);
+        setupToolbar();
+    }
+
+    public void setContentViewWithoutInject(int layoutResId) {
+        super.setContentView(layoutResId);
+    }
+
     protected void setupToolbar() {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setActivityTitle(int title) {
+        ActionBar toolbar = getSupportActionBar();
+        if (toolbar != null)
+            toolbar.setTitle(title);
     }
 
     public void setActivityTitle(String title) {
@@ -59,12 +80,36 @@ public class BaseActivity extends AppCompatActivity {
         return false;
     }
 
-    private void onActionBarHomeIconClicked() {
+    public void onActionBarHomeIconClicked() {
         if (isDisplayHomeAsUpEnabled()) {
             onBackPressed();
         } else {
             finish();
         }
+    }
+
+    public boolean isInternetAvailable() {
+        return NetworkUtils.isNetworkConnected(this);
+    }
+
+    public void showSnackBar(String value) {
+        Snackbar snackbar = Snackbar
+                .make(getCoordinatorLayout(), value, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView =  sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
+    public void showSnackBar(int value) {
+        Snackbar snackbar = Snackbar
+                .make(getCoordinatorLayout(), value, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView =  sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     public CoordinatorLayout getCoordinatorLayout() {
@@ -86,7 +131,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (materialDialog != null) {
+        if(materialDialog!=null) {
             materialDialog.dismiss();
         }
     }
