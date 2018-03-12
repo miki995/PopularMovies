@@ -26,6 +26,7 @@ public abstract class EndlessRecyclerView extends RecyclerView.OnScrollListener 
         visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
     }
 
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);

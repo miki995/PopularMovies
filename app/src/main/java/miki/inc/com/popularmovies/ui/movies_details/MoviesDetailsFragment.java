@@ -1,4 +1,4 @@
-package miki.inc.com.popularmovies.ui.movies;
+package miki.inc.com.popularmovies.ui.movies_details;
 
 import android.content.ContentValues;
 import android.net.Uri;
@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsAdapter;
+import butterknife.ButterKnife;
+import miki.inc.com.popularmovies.R;
+import butterknife.BindView;
+import miki.inc.com.popularmovies.ui.movies.BaseMovieFragment;
 import miki.inc.com.popularmovies.network.database.MoviesContract;
 import miki.inc.com.popularmovies.network.database.MoviesOpenHelper;
 import miki.inc.com.popularmovies.event.FavoriteChangeEvent;
@@ -40,6 +43,9 @@ public class MoviesDetailsFragment extends BaseMovieFragment {
     private TabLayout tabLayout;
     private boolean isFavoriteChanged = false;
 
+    //Movie details layout contains title, release date, movie poster, vote average, and plot synopsis.
+
+    //Review and Trailers
 
     public static MoviesDetailsFragment newInstance(@NonNull Movies movies) {
         Bundle args = new Bundle();
@@ -53,30 +59,31 @@ public class MoviesDetailsFragment extends BaseMovieFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(miki.inc.com.popularmovies.R.layout.fragment_movie_details, container, false);
+        return inflater.inflate(R.layout.fragment_movie_details, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        movies =  getArguments().getParcelable(TAG_MOVIES);
+        movies = (Movies) getArguments().getParcelable(TAG_MOVIES);
 
-        mFavoriteButton =  view.findViewById(miki.inc.com.popularmovies.R.id.favButton);
-        mHeaderImage =  view.findViewById(miki.inc.com.popularmovies.R.id.headerImage);
-        mMoviePosterImage =  view.findViewById(miki.inc.com.popularmovies.R.id.moviePosterImage);
-        mMovieTitle =  view.findViewById(miki.inc.com.popularmovies.R.id.movieTitle);
-        mMovieGenre =  view.findViewById(miki.inc.com.popularmovies.R.id.movieGenre);
+        mFavoriteButton = (FloatingActionButton) view.findViewById(R.id.favButton);
+        mHeaderImage = (SimpleDraweeView) view.findViewById(R.id.headerImage);
+        mMoviePosterImage = (SimpleDraweeView) view.findViewById(R.id.moviePosterImage);
+        mMovieTitle = (TextView) view.findViewById(R.id.movieTitle);
+        mMovieGenre = (TextView) view.findViewById(R.id.movieGenre);
 
         mMoviesDetailsAdapter = new MoviesDetailsAdapter(getChildFragmentManager(), movies);
-        mViewPager =  view.findViewById(miki.inc.com.popularmovies.R.id.viewpager);
-        tabLayout =  view.findViewById(miki.inc.com.popularmovies.R.id.tabLayout);
+        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
+        // Set up the ViewPager with the sections adapter.
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(mMoviesDetailsAdapter);
 
-        tabLayout.setTabTextColors(getResources().getColor(miki.inc.com.popularmovies.R.color.colorGrey100), getResources().getColor(miki.inc.com.popularmovies.R.color.primaryText));
-        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(miki.inc.com.popularmovies.R.color.primaryText));
+        tabLayout.setTabTextColors(getResources().getColor(R.color.colorGrey100), getResources().getColor(R.color.primaryText));
+        tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.primaryText));
         tabLayout.setSelectedTabIndicatorHeight(Utils.dpToPx(2, getActivity()));
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -85,12 +92,12 @@ public class MoviesDetailsFragment extends BaseMovieFragment {
 
 
     private void inflateData() {
+
         Uri uriHeader = Uri.parse("http://image.tmdb.org/t/p/w500/" + movies.getBackdrop_path());
         Uri uriPoster = Uri.parse("http://image.tmdb.org/t/p/w185/" + movies.getPoster_path());
 
         mHeaderImage.setImageURI(uriHeader);
         mMoviePosterImage.setImageURI(uriPoster);
-
 
         mMovieTitle.setText(movies.getTitle());
         mMovieGenre.setText(GenreHelper.getGenreNamesList(movies.getGenre_ids()).trim());
@@ -104,7 +111,7 @@ public class MoviesDetailsFragment extends BaseMovieFragment {
                     LocalStoreUtil.removeFromFavorites(getActivity(), movies.getId());
                     getActivity().getContentResolver().delete(MoviesContract.MoviesEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movies.getId())).build(), null, null);
 
-                    ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.removed_favorite), getActivity());
+                    ViewUtils.showToast(getResources().getString(R.string.removed_favorite), getActivity());
                     movies.setFavorite(false);
 
                 } else {
@@ -112,7 +119,7 @@ public class MoviesDetailsFragment extends BaseMovieFragment {
                     ContentValues values = MoviesOpenHelper.getMovieContentValues(movies);
                     getActivity().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, values);
 
-                    ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.added_favorite), getActivity());
+                    ViewUtils.showToast(getResources().getString(R.string.added_favorite), getActivity());
                     movies.setFavorite(true);
                 }
 

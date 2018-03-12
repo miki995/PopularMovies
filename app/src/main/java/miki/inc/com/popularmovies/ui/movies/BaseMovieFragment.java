@@ -7,7 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import miki.inc.com.popularmovies.network.utils.NetworkUtils;
 
 
-public class BaseMovieFragment extends Fragment {
+public abstract class BaseMovieFragment extends Fragment {
 
     MaterialDialog materialDialog;
 

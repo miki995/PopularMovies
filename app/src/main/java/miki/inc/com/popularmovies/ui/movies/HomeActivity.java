@@ -1,17 +1,20 @@
 package miki.inc.com.popularmovies.ui.movies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import miki.inc.com.popularmovies.ui.base.BaseActivity;
 import miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsActivity;
 import miki.inc.com.popularmovies.event.MovieSelectedEvent;
 import miki.inc.com.popularmovies.network.model.Movies;
 import miki.inc.com.popularmovies.network.model.Sort;
+import miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,7 +23,9 @@ import org.greenrobot.eventbus.ThreadMode;
 public class HomeActivity extends BaseActivity {
 
     private final String TAG_SORT = "sort";
-    private Sort mSort = Sort.POPULAR;
+    private Sort mSort;
+    public static final String PREFERENCES = "MoviePreferences";
+    SharedPreferences sharedpreferences;
 
     private boolean mTwoPane;
 
@@ -45,12 +50,43 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(miki.inc.com.popularmovies.R.layout.activity_home);
 
-        showMoviesFragment();
+        sharedpreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        mSort = getPreference();
 
+        showCorrespondingFragment(mSort);
         if (findViewById(miki.inc.com.popularmovies.R.id.homeDetailsFragment) != null) {
             mTwoPane = true;
         }
 
+    }
+
+    private void showCorrespondingFragment(Sort sort) {
+        if (Sort.FAVORITE == sort) {
+            showFavoriteMoviesFragment();
+        } else {
+            showMoviesFragment();
+        }
+    }
+
+
+    private void setPreferences(Sort sortCriteria) {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(Sort.PREFERENCE_KEY.toString(), sortCriteria.toString());
+        editor.commit();
+    }
+
+    private Sort getPreference() {
+        String enumString = sharedpreferences.getString(Sort.PREFERENCE_KEY.toString(), Sort.POPULAR.toString());
+        switch (enumString) {
+            case "popular":
+                return Sort.POPULAR;
+            case "top_rated":
+                return Sort.TOP_RATED;
+            case "favorite":
+                return Sort.FAVORITE;
+            default:
+                return Sort.POPULAR;
+        }
     }
 
     private void showMoviesFragment() {
@@ -101,17 +137,20 @@ public class HomeActivity extends BaseActivity {
             case miki.inc.com.popularmovies.R.id.sort_by_popularity:
                 item.setChecked(!item.isChecked());
                 onSortChanged(Sort.POPULAR);
+                setPreferences(Sort.POPULAR);
                 showMoviesFragment();
                 break;
 
             case miki.inc.com.popularmovies.R.id.sort_by_rating:
                 item.setChecked(!item.isChecked());
                 onSortChanged(Sort.TOP_RATED);
+                setPreferences(Sort.TOP_RATED);
                 showMoviesFragment();
                 break;
 
             case miki.inc.com.popularmovies.R.id.sort_by_favorite:
                 item.setChecked(!item.isChecked());
+                setPreferences(Sort.FAVORITE);
                 showFavoriteMoviesFragment();
                 break;
         }

@@ -3,16 +3,21 @@ package miki.inc.com.popularmovies.ui.movies;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
@@ -34,9 +39,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class MoviesFragment extends BaseMovieFragment implements ResponseListener<MoviesResponse>, MoviesAdapter.Callbacks{
+public class MoviesFragment extends BaseMovieFragment implements ResponseListener<MoviesResponse>, MoviesAdapter.Callbacks {
 
     private static final String TAG_SORT = "state_sort";
 
@@ -47,10 +53,13 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     private Sort mSort;
     private int currentPage, totalPages;
 
+    private Parcelable state;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(!EventBus.getDefault().isRegistered(this)) {
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
     }
@@ -58,7 +67,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     @Override
     public void onDetach() {
 
-        if(EventBus.getDefault().isRegistered(this)) {
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
 
@@ -74,19 +83,32 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
         return fragment;
     }
 
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("POSITION", gridLayoutManager.onSaveInstanceState());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return inflater.inflate(miki.inc.com.popularmovies.R.layout.fragment_home, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            state = savedInstanceState.getParcelable("POSITION");
+        }
 
         mSort = (Sort) getArguments().getSerializable(TAG_SORT);
 
-        recyclerView =  view.findViewById(miki.inc.com.popularmovies.R.id.recyclerView);
+        recyclerView = view.findViewById(miki.inc.com.popularmovies.R.id.recyclerView);
         int columnCount = getResources().getInteger(miki.inc.com.popularmovies.R.integer.movies_columns);
+
 
         gridLayoutManager = new GridLayoutManager(getActivity(), columnCount);
         int spacing = Utils.dpToPx(5, getActivity());
@@ -98,9 +120,9 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
             public void onLoadMore(int current_page) {
 
 
-                if(currentPage<totalPages) {
+                if (currentPage < totalPages) {
 
-                    getMoviesData(mSort, currentPage+1);
+                    getMoviesData(mSort, currentPage + 1);
 
                 }
 
@@ -110,15 +132,18 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
         moviesAdapter = new MoviesAdapter(mMovies);
         moviesAdapter.setCallbacks(this);
         recyclerView.setAdapter(moviesAdapter);
-
+        if (state != null) {
+            gridLayoutManager.onRestoreInstanceState(state);
+        }
         getMoviesData(mSort, 1);
+
     }
 
 
     public void getMoviesData(final Sort sort, final int currentPage) {
-        if(isInternetAvailable()) {
+        if (isInternetAvailable()) {
 
-            if(sort == Sort.POPULAR) {
+            if (sort == Sort.POPULAR) {
                 new PopularMoviesService().getMostPopularMovies(currentPage, this);
             } else {
                 new PopularMoviesService().getTopRatedMovies(currentPage, this);
@@ -137,7 +162,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
             snackbar.setActionTextColor(Color.RED);
 
             View sbView = snackbar.getView();
-            TextView textView =  sbView.findViewById(android.support.design.R.id.snackbar_text);
+            TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.YELLOW);
             snackbar.show();
         }
@@ -152,7 +177,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     public void onResponse(MoviesResponse response) {
 
         hideProgressDialog();
-        if(response==null || response.getResults().isEmpty()) {
+        if (response == null || response.getResults().isEmpty()) {
             return;
         }
 
@@ -174,15 +199,15 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     @Override
     public void onFavoriteClick(Movies movies) {
 
-        if(movies.isFavorite()) {
+        if (movies.isFavorite()) {
             LocalStoreUtil.removeFromFavorites(getActivity(), movies.getId());
-            ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.removed_favorite),getActivity());
+            ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.removed_favorite), getActivity());
 
             getActivity().getContentResolver().delete(MoviesContract.MoviesEntry.CONTENT_URI.buildUpon().appendPath(String.valueOf(movies.getId())).build(), null, null);
 
         } else {
             LocalStoreUtil.addToFavorites(getActivity(), movies.getId());
-            ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.added_favorite),getActivity());
+            ViewUtils.showToast(getResources().getString(miki.inc.com.popularmovies.R.string.added_favorite), getActivity());
 
             ContentValues values = MoviesOpenHelper.getMovieContentValues(movies);
             getActivity().getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, values);
@@ -193,7 +218,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(final FavoriteChangeEvent event){
+    public void onEvent(final FavoriteChangeEvent event) {
 
         moviesAdapter.notifyDataSetChanged();
 
