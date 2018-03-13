@@ -3,12 +3,15 @@ package miki.inc.com.popularmovies.ui.movies;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import miki.inc.com.popularmovies.R;
 import miki.inc.com.popularmovies.ui.base.BaseActivity;
 import miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsActivity;
 import miki.inc.com.popularmovies.event.MovieSelectedEvent;
@@ -19,6 +22,10 @@ import miki.inc.com.popularmovies.ui.movies_details.MoviesDetailsFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeActivity extends BaseActivity {
 
@@ -53,18 +60,19 @@ public class HomeActivity extends BaseActivity {
         sharedpreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         mSort = getPreference();
 
-        showCorrespondingFragment(mSort);
-        if (findViewById(miki.inc.com.popularmovies.R.id.homeDetailsFragment) != null) {
-            mTwoPane = true;
+        if (null == savedInstanceState) {
+            showCorrespondingFragment(mSort);
+            if (findViewById(miki.inc.com.popularmovies.R.id.homeDetailsFragment) != null) {
+                mTwoPane = true;
+            }
         }
-
     }
 
     private void showCorrespondingFragment(Sort sort) {
         if (Sort.FAVORITE == sort) {
             showFavoriteMoviesFragment();
         } else {
-            showMoviesFragment();
+            showMoviesFragment(sort);
         }
     }
 
@@ -72,7 +80,7 @@ public class HomeActivity extends BaseActivity {
     private void setPreferences(Sort sortCriteria) {
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(Sort.PREFERENCE_KEY.toString(), sortCriteria.toString());
-        editor.commit();
+        editor.apply();
     }
 
     private Sort getPreference() {
@@ -89,8 +97,8 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    private void showMoviesFragment() {
-        replaceFragment(MoviesFragment.newInstance(mSort));
+    private void showMoviesFragment(Sort sort) {
+        replaceFragment(MoviesFragment.newInstance(sort));
     }
 
     private void showFavoriteMoviesFragment() {
@@ -131,34 +139,54 @@ public class HomeActivity extends BaseActivity {
         return true;
     }
 
+    private void initializeEmptyFragment() {
+        List<Integer> emptylist = new ArrayList<>();
+        emptylist.add(18);
+        Movies movies = new Movies(1, false, "", "",
+                "1999-10-15",
+                emptylist,
+                "Please choose movie", "", "Please Choose a movie",
+                "", "",
+                false, "1", 1);
+
+        if (mTwoPane) {
+            MoviesDetailsFragment fragment = MoviesDetailsFragment.newInstance(movies);
+            replaceDetailsFragment(fragment);
+
+            Uri uri = Uri.parse("http://media.comicbook.com/files/img/default-movie.png");
+
+            SimpleDraweeView mHeaderImage = findViewById(R.id.headerImage);
+            mHeaderImage.setImageURI(uri);
+            SimpleDraweeView mMoviePosterImage = findViewById(R.id.moviePosterImage);
+            mMoviePosterImage.setImageURI(uri);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case miki.inc.com.popularmovies.R.id.sort_by_popularity:
                 item.setChecked(!item.isChecked());
-                onSortChanged(Sort.POPULAR);
                 setPreferences(Sort.POPULAR);
-                showMoviesFragment();
+                showCorrespondingFragment(Sort.POPULAR);
+                initializeEmptyFragment();
                 break;
 
             case miki.inc.com.popularmovies.R.id.sort_by_rating:
                 item.setChecked(!item.isChecked());
-                onSortChanged(Sort.TOP_RATED);
                 setPreferences(Sort.TOP_RATED);
-                showMoviesFragment();
+                showCorrespondingFragment(Sort.TOP_RATED);
+                initializeEmptyFragment();
                 break;
 
             case miki.inc.com.popularmovies.R.id.sort_by_favorite:
                 item.setChecked(!item.isChecked());
                 setPreferences(Sort.FAVORITE);
-                showFavoriteMoviesFragment();
+                showCorrespondingFragment(Sort.FAVORITE);
+                initializeEmptyFragment();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void onSortChanged(Sort sort) {
-        mSort = sort;
     }
 
     @Override

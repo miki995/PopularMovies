@@ -30,5 +30,6 @@
     <string name="content_authority">miki.inc.com.popularmovies</string>
 
     <string name="message_empty_movie_fragment">Please choose a movie</string>
+    <string name="empty_movie">Select a movie</string>
 
 </resources>

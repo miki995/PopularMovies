@@ -86,9 +86,10 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("POSITION", recyclerView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
-        outState.putParcelable("POSITION", gridLayoutManager.onSaveInstanceState());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,11 +133,7 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
         moviesAdapter = new MoviesAdapter(mMovies);
         moviesAdapter.setCallbacks(this);
         recyclerView.setAdapter(moviesAdapter);
-        if (state != null) {
-            gridLayoutManager.onRestoreInstanceState(state);
-        }
         getMoviesData(mSort, 1);
-
     }
 
 
@@ -188,7 +185,9 @@ public class MoviesFragment extends BaseMovieFragment implements ResponseListene
 
         mMovies.addAll(movies);
         moviesAdapter.notifyDataSetChanged();
-
+        if (state != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(state);
+        }
     }
 
     @Override

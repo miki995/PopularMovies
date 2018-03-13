@@ -3,7 +3,6 @@ package miki.inc.com.popularmovies.network;
 import com.google.gson.reflect.TypeToken;
 
 import miki.inc.com.popularmovies.BuildConfig;
-import miki.inc.com.popularmovies.network.ApiEndpoints;
 import miki.inc.com.popularmovies.network.core.BaseService;
 import miki.inc.com.popularmovies.network.core.ResponseListener;
 import miki.inc.com.popularmovies.network.responses.MovieReviewResponse;
